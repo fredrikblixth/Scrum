@@ -21,7 +21,11 @@ namespace Medlemsregistret
 
             try
             {
-                var member = new Member(MembershipNumberCalculator.CalculateMembershipNumber(members), firstName, lastName);
+                var member = new Member();
+                member.MembershipNumber = MembershipNumberCalculator.CalculateMembershipNumber(members);
+                member.FirstName = firstName;
+                member.LastName = lastName;
+                member.PhoneNumber = phoneNumber;
                 members.Add(member);
             }
             catch (Exception)

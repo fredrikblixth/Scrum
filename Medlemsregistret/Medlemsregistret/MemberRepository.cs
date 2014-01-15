@@ -21,13 +21,22 @@ namespace Medlemsregistret
         public List<Member> LoadMembers()
         {
             var membersList = new List<Member>();
+            var reader = new XmlSerializer(typeof(List<Member>));
+            using (FileStream input = File.OpenRead(this.FilePath))
+            {
+                membersList = reader.Deserialize(input) as List<Member>;
+            }
             
-
             return membersList;
         }
 
         public void SaveMembers(List<Member> members)
         {
+            var writer = new XmlSerializer(typeof(List<Member>));
+            using (FileStream file = File.OpenWrite(this.FilePath))
+            {
+                writer.Serialize(file, members);
+            }
         }
     }
 }

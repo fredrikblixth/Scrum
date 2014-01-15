@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Medlemsregistret
 {
@@ -12,6 +13,13 @@ namespace Medlemsregistret
         {
             var menuChoice = -1;
             var memberList = new List<Member>();
+            var memberRepository = new MemberRepository("members.xml");
+
+            if(File.Exists("members.xml"))
+            {
+                memberList = memberRepository.LoadMembers();
+            }
+
             do
             {
                 menuChoice = GetMenuChoice();
@@ -21,6 +29,7 @@ namespace Medlemsregistret
                         break;
                     case 1:
                         memberList = MemberListController.AddMember(memberList);
+                        memberRepository.SaveMembers(memberList);
                         ContinueOnKeyPressed();
                         break;
                     case 2:
@@ -30,6 +39,7 @@ namespace Medlemsregistret
                     case 3:
                         var chosenMember = MemberListController.ChooseMember(memberList);
                         memberList = MemberListController.EditMember(memberList, chosenMember);
+                        memberRepository.SaveMembers(memberList);
                         ContinueOnKeyPressed();
                         break;
                     case 4:
@@ -40,11 +50,13 @@ namespace Medlemsregistret
                     case 5:
                         chosenMember = MemberListController.ChooseMember(memberList);
                         memberList = MemberListController.RemoveMember(memberList, chosenMember);
+                        memberRepository.SaveMembers(memberList);
                         ContinueOnKeyPressed();
                         break;
                     default:
                         throw new NotImplementedException();
                 }
+                memberList = memberRepository.LoadMembers();
             }
             while(menuChoice != 0);
 
