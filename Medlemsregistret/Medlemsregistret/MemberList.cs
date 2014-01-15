@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Medlemsregistret
 {
-    static class MemberList
+    static class MemberListController
     {
         public static List<Member> AddMember(List<Member> members)
         {
             Console.Write("Ange förnamn: ");
             var firstName = Console.ReadLine();
 
-            Console.WriteLine("Ange efternamn: ");
+            Console.Write("Ange efternamn: ");
             var lastName = Console.ReadLine();
 
-            Console.WriteLine("Ange telefonnummer: ");
+            Console.Write("Ange telefonnummer: ");
             var phoneNumber = Console.ReadLine();
 
             try
@@ -26,7 +26,9 @@ namespace Medlemsregistret
             }
             catch (Exception)
             {
+                Console.BackgroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("Du måste ange för- och efternamn!");
+                Console.ResetColor();
             }
 
             return members;
@@ -40,13 +42,7 @@ namespace Medlemsregistret
                 Console.WriteLine("===========================");
                 foreach (Member member in members) 
                 {
-                    Console.WriteLine();
-                    Console.Write("Medlemsnummber: ");
-                    Console.WriteLine(member.MembershipNumber);
-                    Console.Write("Namn: ");
-                    Console.WriteLine("{0} {1}", member.FirstName, member.LastName);
-                    Console.Write("Telefon: ");
-                    Console.WriteLine();
+                    Console.WriteLine("{0}: {1} {2}", member.MembershipNumber, member.FirstName, member.LastName);
                 }
                 Console.WriteLine();
                 Console.WriteLine("===========================");
@@ -61,10 +57,11 @@ namespace Medlemsregistret
         {
             var validNumber = false;
             var chosenMemberNumber = 0;
+            MemberListController.ListMembers(members);
 
             while (!validNumber)
             {
-                Console.WriteLine("Välj medlem med nummer: ");
+                Console.Write("Välj medlem med nummer: ");
                 try
                 {
                     chosenMemberNumber = Int32.Parse(Console.ReadLine());
@@ -101,13 +98,11 @@ namespace Medlemsregistret
 
                     Console.Write("Ange nytt telefonnummer: ");
                     member.PhoneNumber = Console.ReadLine();
-                }
-                else
-                {
-                    Console.WriteLine("Ingen medlem med nummer " + membershipNumber + " kunde hittas!");
+
+                    return members;
                 }
             }
-
+            Console.WriteLine("Ingen medlem med nummer " + membershipNumber + " kunde hittas!");
             return members;
         }
 
