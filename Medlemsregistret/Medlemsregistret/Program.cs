@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
 
 namespace Medlemsregistret
 {
@@ -14,11 +10,7 @@ namespace Medlemsregistret
             var menuChoice = -1;
             var memberList = new List<Member>();
             var memberRepository = new MemberRepository("members.xml");
-
-            if(File.Exists("members.xml"))
-            {
-                memberList = memberRepository.LoadMembers();
-            }
+            memberList = memberRepository.LoadMembers();
 
             do
             {
@@ -84,7 +76,7 @@ namespace Medlemsregistret
 
             while (!acceptableMenuChoice)
             {
-                Console.Write("Ange val 0-8: ");
+                Console.Write("Ange val 0-5: ");
                 var userInput = Console.ReadLine();
 
                 try

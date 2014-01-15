@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Serialization;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Xml.Serialization;
 
 namespace Medlemsregistret
 {
@@ -20,22 +15,33 @@ namespace Medlemsregistret
 
         public List<Member> LoadMembers()
         {
-            var membersList = new List<Member>();
-            var reader = new XmlSerializer(typeof(List<Member>));
-            using (FileStream input = File.OpenRead(this.FilePath))
-            {
-                membersList = reader.Deserialize(input) as List<Member>;
-            }
+            if(File.Exists(this.FilePath))
+            { 
+                var membersList = new List<Member>();
+                var reader = new XmlSerializer(typeof(List<Member>));
+                using (FileStream input = File.OpenRead(this.FilePath))
+                {
+                    membersList = reader.Deserialize(input) as List<Member>;
+                }
             
-            return membersList;
+                return membersList;
+            }
+            else
+            {
+                return new List<Member>();
+            }
         }
 
         public void SaveMembers(List<Member> members)
         {
-            var writer = new XmlSerializer(typeof(List<Member>));
-            using (FileStream file = File.OpenWrite(this.FilePath))
+            File.Delete(this.FilePath);
+            if(members.Count != 0)
             {
-                writer.Serialize(file, members);
+                var writer = new XmlSerializer(typeof(List<Member>));
+                using (FileStream file = File.OpenWrite(this.FilePath))
+                {
+                    writer.Serialize(file, members);
+                }
             }
         }
     }
