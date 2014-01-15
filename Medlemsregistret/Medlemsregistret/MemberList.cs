@@ -64,7 +64,7 @@ namespace Medlemsregistret
 
             while (!validNumber)
             {
-                Console.WriteLine("Välj medlemsnummer: ");
+                Console.WriteLine("Välj medlem med nummer: ");
                 try
                 {
                     chosenMemberNumber = Int32.Parse(Console.ReadLine());
@@ -87,11 +87,11 @@ namespace Medlemsregistret
             return chosenMemberNumber;
         }
 
-        public static List<Member> EditMember(List<Member> members, int memberShipNumber) 
+        public static List<Member> EditMember(List<Member> members, int membershipNumber) 
         {
             foreach(Member member in members)
             {
-                if(member.MembershipNumber == memberShipNumber)
+                if(member.MembershipNumber == membershipNumber)
                 {
                     Console.Write("Ange nytt förnamn: ");
                     member.FirstName = Console.ReadLine();
@@ -104,7 +104,7 @@ namespace Medlemsregistret
                 }
                 else
                 {
-                    Console.WriteLine("Ingen medlem med nummer " + memberShipNumber + " kunde hittas!");
+                    Console.WriteLine("Ingen medlem med nummer " + membershipNumber + " kunde hittas!");
                 }
             }
 
@@ -125,6 +125,28 @@ namespace Medlemsregistret
 
             Console.WriteLine("Ingen medlem med det numret hittades! Avbryter..");
             return members;
+        }
+        public static void ViewMemberDetails(List<Member> members, int membershipNumber)
+        {
+            var isMemberFound = false;
+
+            foreach (Member member in members)
+            {
+                if (member.MembershipNumber == membershipNumber)
+                {
+                    Console.WriteLine("=========================================");
+                    Console.WriteLine("Medlemsnummer: {0}", member.MembershipNumber);
+                    Console.WriteLine("Förnamn: {0}", member.FirstName);
+                    Console.WriteLine("Efternam: {0}", member.LastName);
+                    Console.WriteLine("Telefon: {0}", member.PhoneNumber);
+                    Console.WriteLine("=========================================");
+                    isMemberFound = true;
+                }
+            }
+            if(!isMemberFound)
+            {
+                Console.WriteLine("Ingen medlem med det nummer kunde hittas!");
+            }
         }
     }
 }
