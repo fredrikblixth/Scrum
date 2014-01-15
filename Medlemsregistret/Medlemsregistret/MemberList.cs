@@ -115,11 +115,15 @@ namespace Medlemsregistret
         {
             foreach (Member member in members)
             {
-                if (member.MembershipNumber == members)
+                if (member.MembershipNumber == membershipNumber)
                 {
-
+                    members.Remove(member);
+                    Console.WriteLine("Medlemmen borttagen!");
+                    return members;
                 }
             }
+
+            Console.WriteLine("Ingen medlem med det numret hittades! Avbryter..");
             return members;
         }
     }
